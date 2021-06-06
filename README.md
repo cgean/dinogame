@@ -1,2 +1,2 @@
 # game_01
-Adventure Game 01
+Dino adventure 2d game.
