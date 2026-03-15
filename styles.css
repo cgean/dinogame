@@ -1,0 +1,9 @@
+#mycanvas {
+  display: block;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid;
+  border-color: gray;
+  background-image: linear-gradient(rgb(47, 171, 253), rgb(255, 234, 255));
+}
