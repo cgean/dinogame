@@ -1,4 +1,4 @@
-class ImageFigure {
+export default class ImageFigure {
 
     constructor(ctx, x, y, width, height, nameImage) {
         this.ctx = ctx;
@@ -6,10 +6,16 @@ class ImageFigure {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.img = createImage(nameImage);
+        this.img = this.createImage(nameImage);
     }
 
     draw() {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    createImage(imgSrc) {
+        const img = new Image();
+        img.src = imgSrc;
+        return img;
     }
 }

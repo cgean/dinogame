@@ -1,16 +1,19 @@
+import Character from './character.js';
+import Stage from './stage.js';
+import ImageFigure from './imagefigure.js';
+
 let canvas;
 let ctx;
 let width;
 let height;
-let figures = [];
 let player;
+let stage;
 let animation;
 let isRunning = false;
-let score;
-let lives;
-let fires;
 let isGameOver = false;
 let record = 0;
+
+init();
 
 function init() {
     create();
@@ -33,24 +36,18 @@ function createCanvas() {
 }
 
 function createFigures() {
-    figures = new Stage().figures;
     player = new Character(ctx, 50, height - 160, 200, 150, 0.15);
-    score = new TextItem(ctx, 15, 25, 50, 25, 'Score: ' + player.score, 'yellow', 15);
-    lives = new TextItem(ctx, 15, 42, 50, 25, 'Lives: ' + player.lives, 'yellow', 15);
-    fires = new TextItem(ctx, 15, 59, 50, 25, 'Fires: ' + player.fires, 'yellow', 15);
-    itemRecord = new TextItem(ctx, width - 100, 25, 50, 25, 'Record: ' + record, 'yellow', 15);
-    figures.push(player);
-    figures.push(itemRecord);
+    stage = new Stage(ctx, width, height, player, record);
 }
 
 function play() {
-    figures.pop();
+    stage.infoGameStatus.pop();
     isRunning = true;
 }
 
 function pause() {
     const img = centeredImage(height / 5, height / 5, "img/ui/play.png");
-    figures.push(img);
+    stage.addInfoGameStatusus(img);
     isRunning = false;
 }
 
@@ -60,7 +57,7 @@ function setGameOver() {
     }
     player.y = height;
     const img = centeredImage(height / 2, height / 6, "img/ui/img_game_over.png");
-    figures.push(img);
+    stage.addInfoGameStatusus(img);
     isRunning = false;
     isGameOver = true;    
 }
@@ -79,26 +76,15 @@ function render() {
 }
 
 function draw() { 
-    figures.forEach(function(f) {
-        f.draw();
-    });
-    score.draw();
-    lives.draw();
-    fires.draw();
+    stage.draw();
 }
 
 function update() {
     if (isRunning) {
-        figures.forEach(function(f) {
-            f.update();
-        });
+        stage.update();
         if (player.lives <= 0) {
             setGameOver();
         }
-        score.text =  'Score: ' + player.score;
-        lives.text =  'Lives: ' + player.lives;
-        fires.text =  'Fires: ' + player.fires;
-        record.text =  'Record: ' + record;
     }
 }
 
@@ -108,16 +94,6 @@ function controlState() {
     }else{
         isRunning ? pause() : play();
     }
-}
-
-function posRand(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-function createImage(imgSrc) {
-    const img = new Image();
-    img.src = imgSrc;
-    return img;
 }
 
 document.addEventListener('keydown', (event) => {

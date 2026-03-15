@@ -1,4 +1,4 @@
-class ColorFigure {
+export default class ColorFigure {
     
     constructor(ctx, x, y, width, height, color) {
         this.ctx = ctx;    
